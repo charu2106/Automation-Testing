@@ -12,26 +12,27 @@ Feature: Uniform Website feature
     When Admin clicks on Add new button
     Then admin will be redirected to the add Products return page
     Then admin enters "<Order ID>", "<Order_Date>", "<Customer>", "<First Name>", "<Last Name>", "<Email>", "<Telephone>"
-    Then admin enters "<Product>", "<Model>", "<Quantity>"
+    Then admin enters "<Comments>" "<Product>", "<Model>", "<Quantity>"
     Then admin set the Return status to "Received Wrong Item", Opened to "Opened", Return Action to "Refunded" and Return Status to "Pending"
     #select options for "<Return Reason>", "<Opened>", "<Return Action>" and "<Return Status>"
     And admin clicks on  Save button
+    Then Admin checks the displayed message
     Then admin will be redirected to the Products return page
 
     Examples: 
-      | Order ID | Order_Date | Customer      | First Name | Last Name | Email           | Telephone | Product | Model | Quantity |
-      |      101 | 2021-10-11 | Chandler Bing | Chandler   | Bing      | ccles@gmail.com | 987654321 | Tshirt  | Ts10a |        2 |
+      | Order ID | Order_Date | Customer         | First Name | Last Name  | Email              | Telephone | Comments          | Product     | Model    | Quantity |
+      |       21 | 2021-10-11 | Rachel Green     | Rachel     | Green      | grach@gmail.com    | 987654332 | Best Quality      | Sbags       | Sb2s     |        1 |
+      |          | 2021-10-11 | Chandler101 Bing | Chandler   | Bing001    | ccles@gmail.com    | 987654321 | Okay Okayish      |             | Ts10a    |        2 |
+      |   101110 |            | Chandler Bing    | Chand101   | Bing       | ccles@gmail.com    |    000000 | Formal Shirt      | Fs10a       | 2$       | abc      |
+      |     1101 | 2021-10-11 | Chloe deckar     | Chandler   | Bing       | ccles@gmail.com    | abcde12   | Good Quality      | Tshirt      | Ts10a    |        2 |
+      | abc!&    | 2021-10-11 | Ro$$ Geller      |            | Geller101! | GELROSS@GMAIL.COM  |     98765 | Not good 00@      |             | Ts10a@   |        0 |
+      |      101 | 2021-07-11 | Chandler Bing    | @$%^&      | biNG       | ccles123gmail.com  |    683689 | Perfect fitting   | Jeans2a     | Ts10a    |          |
+      | @#$%     | 2020-10-11 |                  | Joey       | 101$%      | ccles@gmail.com    | 987ab&$   | okay product      | &*()        | @!$%^    |    22345 |
+      |      101 | 20-10-2021 | Pheebe Buffay    | Pho ebe    | Buffay     | pheebuff@gmail.com |           | Different product | BeltTST     |          |        2 |
+      |      117 | 2021-10-11 | Chandler Bing    |    2106999 | Bing       |                    | 684210738 |                   | FormalShirt | Ts10a    |        2 |
+      |       41 | 2021-10-11 | Chandler Bing    | Chandler   | Bing       | ccles@             |    000000 | Good quality      | dguGDI      | Btr23    |        7 |
+      |       10 | 2021-10-11 | Chandler Bing    | Chandler   | Bi ng      | ccles@gmail.com    |    526567 | Poor Quality      | Handbag     | tCBHGD72 |          |
 
-  #|   101ab@ | 2021-10-11  | Chandler Bing | Chand101| Bing      | ccles@gmail.com | 987654321 | Tshirt  | Ts10a |        2 |
-  #|      101 | 2021-10-11  | Chandler Bing | Chandler   | Bing      | ccles@gmail.com | 987654321 | Tshirt  | Ts10a |        2 |
-  #| abc!&#   | 2021-10-11 | Chandler Bing | Chandler#  | Bing101!  | ccles@gmail.com |     98765 | Bag123  | Ts10a@ |        0 |
-  #|      101 | 2021-10-11  | Chandler Bing | #@$%^&   | 78961      | ccles123gmail.com | 9 | Jeans2a  | Ts10a |        2 |
-  # Telephone and email arent valid----------->
-  #|      @#$% | 2020-10-11  | Chandler Bing | Chandler   | Bing      | ccles@gmail.com | 987654321 | #&*()  | @!$%^ |        22345 |
-  # Order Id takes 0, test case fails------------->
-  #|        1 | 2021-10-11 | Chandler Bing | Chandler   | Bing      | ccles@gmail.com |           | Tshirt  | Ts10a |        2 |
-  #Mandatory fields missing----------------->
-  
   Scenario Outline: Verify Edit Functionality
     When Admin clicks on checkbox button
     And admin clicks on Edit button
@@ -67,19 +68,42 @@ Feature: Uniform Website feature
     When Admin enters "<Return_ID>"
     And clicks on Filter button
     Then admin gets filtered data
-		And admin gets redirected on the Homepage
-		
+    And admin gets redirected on the Homepage
+
     Examples: 
       | Return_ID |
       |       527 |
-     #|       527 |
-     
-     
-   Scenario: Verifying Sorting Functionality
-   When Admin clicks in Sort button on Return ID
-   Then Admin gets sorted data in ascending form
-   And admin gets redirected on the Homepage
-   
-     
-     
-      
+			|      527A |
+		  |      SVDJ12 |
+		  |      527@$ |
+		  |      $$123 |
+		  
+			
+  Scenario: Verifying Sorting Functionality
+    When Admin clicks in Sort button on Return ID
+    Then Admin gets sorted data in ascending form
+    And admin gets redirected on the Homepage
+
+  Scenario Outline: Verify Bug functionality
+    When Admin clicks on Add button on Products page
+    Then admin will be redirected to the add new Products return page
+    Then admin enters data for "<Order ID>", "<Order_Date>", "<Customer>", "<First Name>", "<Last Name>", "<Email>", "<Telephone>"
+    Then admin enters data for "<Comments>" "<Product>", "<Model>", "<Quantity>"
+    Then admin sets the following Return status to "Received Wrong Item", Opened to "Opened", Return Action to "Refunded" and Return Status to "Pending"
+    And admin clicks on  Save button after data is entered
+    Then admin will be redirected to the Products return page
+
+    Examples: 
+      | Order ID | Order_Date | Customer      | First Name | Last Name  | Email             | Telephone | Comments          | Product | Model       | Quantity |
+      |       21 | 2021-10-11 | Rachel Green  | Rachel     | Green      | grach@gmail.com   | 987654332 | Best Quality      | Sbags   | Sb2FG       |        1 |
+      | qwertyui | 2021-10-11 | Chandler Bing | Chandler   | Bing       | ccles@gmail.com   | 987654321 | Okay Okayish      | Tshirt  | Ts10a       |        2 |
+      |      000 | 2021-10-1  | Chandler Bing | Chand101   | Bing       | ccles@gmail.com   |    000000 | Formal Shirt      | Fs10a   | 2$          | abc      |
+      |      101 | 2021-10-11 | cHLOE DECKAR  | Chandler   | Bing       | ccles@gmail.com   |  56758798 | Good Quality      | Tshirt  | Ts10a       |        2 |
+      | abc!&    | 2021-10-11 | Ro$$ Geller   | Ross       | Geller101! | GELROSS@GMAIL.COM |     98765 | Not good 00@      | Bag123  | Ts10a@      |        2 |
+      |      101 | 21-11-2020 | Chandler Bing | @$%^&      | vdavid     | ccles123gmail.com |         9 | Perfect fitting   | Jeans2a | Ts10a       |        0 |
+      | @*$%     | 2020-10-11 | Joey Tribiani | Joey       | 101$%      | &HSA@GMAIL.COM    | 987ab&$   | okay product      | &*()    | @!$%^       |    22345 |
+      | abc      | 2021-10-08 | Pheebe Buffay | Pho ebe    | Buffay     | 1234@gmail.com    |           | Different product | BeltTST | Ts10a       |        2 |
+      | 11 7     | 2021-10-11 | Chandler Bing |    2106999 | Bing       | ccles@gmail.com   | 684210738 | fine product      | BeltTST | FormalShirt | Ts10a    |
+      |       41 | 2021/10/11 | Chandler Bing | Chandler   | Bing       | ccles@gmail.com   |    000000 | Good quality      | BeltTST | Btr23       |        7 |
+      |       10 | 2021-10-11 | Chandler Bing | Chandler   | Bi$ng      | ccles@gmail.com   |    526567 | Poor Quality      | Handbag | dgaus78     |          |
+      |     0000 | 2021-10-11 | Chandler Bing | Chandler   | Bi ng      | ccles@GMAIL.COM   |    526567 | 00@%^&            | Handbag | dkad8&&     |        2 |

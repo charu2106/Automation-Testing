@@ -10,18 +10,19 @@ public class hookclass {
 	public static WebDriver driver;
 	
 	@Before
-	public void initialization()
+	public void initialization() throws InterruptedException
 	{
 		System.setProperty("webdriver.chrome.driver","C:\\Users\\lenovo\\Documents\\chromedriver.exe");
 		driver=new ChromeDriver();
 		driver.get("http://uniformm1.upskills.in/admin");
+		Thread.sleep(3000);
 	}
 	
 	@After
 	public void closeddriver()
 	{
 		System.out.println("Browser is closing now");
-		//driver.quit();
+		driver.quit();
 		
 	}
 	
